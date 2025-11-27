@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://scalable-web-app-frontend.vercel.app', process.env.FRONTEND_URL],
+    origin: ['http://localhost:5173', 'https://scalable-web-app-frontend.vercel.app', 'https://primetrade-7ok5.vercel.app', process.env.FRONTEND_URL],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With']
