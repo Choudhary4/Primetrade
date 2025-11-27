@@ -109,7 +109,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent p-4 md:p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-transparent p-4 md:p-8 relative">
       <Spotlight className="-top-10 left-0 md:left-60 md:-top-20" fill="white" />
       <Modal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)}>
         <div className="p-6">

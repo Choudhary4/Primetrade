@@ -11,6 +11,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { signup } = useAuth();
     const navigate = useNavigate();
 
@@ -22,11 +23,14 @@ const Signup = () => {
             return setError('Passwords do not match');
         }
 
+        setLoading(true);
         try {
             await signup(name, email, password);
             navigate('/dashboard');
         } catch (err) {
             setError(err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -89,16 +93,27 @@ const Signup = () => {
                     </LabelInputContainer>
 
                     <button
-                        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+                        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] flex items-center justify-center"
                         type="submit"
+                        disabled={loading}
                     >
-                        Sign up &rarr;
-                        <BottomGradient />
+                        {loading ? (
+                            <div className="flex space-x-1">
+                                <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                <div className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                            </div>
+                        ) : (
+                            <>
+                                Sign up &rarr;
+                                <BottomGradient />
+                            </>
+                        )}
                     </button>
 
                     <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-                    
+
                     <p className="mt-4 text-center text-neutral-600 dark:text-neutral-300 text-sm">
                         Already have an account?{' '}
                         <Link to="/login" className="text-blue-500 hover:underline">
