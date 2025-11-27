@@ -18,9 +18,24 @@ app.use(cors({
 app.use(express.json());
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+// Database Connection
+let isConnected = false;
+const connectDB = async () => {
+    if (isConnected) return;
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        isConnected = !!conn.connections[0].readyState;
+        console.log('MongoDB Connected');
+    } catch (err) {
+        console.error('MongoDB Connection Error:', err);
+    }
+};
+
+// Connect to DB before handling requests (Middleware approach or direct call)
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
